@@ -15,7 +15,8 @@ class Hospital extends Model
     protected $allowedFields    = [
         'nama', 'foto', 'jenis', 'kelas', 'alamat', 'kecamatan', 
         'telepon', 'whatsapp', 'email', 'website', 'jam_operasional', 
-        'status_bpjs', 'rating', 'latitude', 'longitude', 'deskripsi', 'galeri', 'link_gmaps'
+        'status_bpjs', 'rating', 'latitude', 'longitude', 'deskripsi', 'galeri', 'link_gmaps',
+        'fasilitas', 'layanan', 'jadwal_dokter'
     ];
 
     protected bool $allowEmptyInserts = false;

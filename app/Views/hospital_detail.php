@@ -132,6 +132,88 @@
                     <p class="text-on-surface-variant leading-relaxed whitespace-pre-line"><?= htmlspecialchars($hospital['deskripsi']) ?></p>
                 </div>
                 <?php endif; ?>
+
+                <!-- Fasilitas & Layanan -->
+                <?php 
+                $fasilitasArr = !empty($hospital['fasilitas']) ? json_decode($hospital['fasilitas'], true) : [];
+                $layananArr = !empty($hospital['layanan']) ? json_decode($hospital['layanan'], true) : [];
+                if (!empty($fasilitasArr) || !empty($layananArr)): 
+                ?>
+                <div class="bg-white rounded-2xl border border-outline-variant p-8 shadow-sm">
+                    <h3 class="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">medical_services</span>
+                        Fasilitas & Layanan
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <?php if(!empty($fasilitasArr)): ?>
+                        <div>
+                            <h4 class="font-bold text-on-surface mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span> Fasilitas
+                            </h4>
+                            <ul class="space-y-2">
+                                <?php foreach($fasilitasArr as $f): ?>
+                                    <li class="flex items-start gap-2 text-on-surface-variant">
+                                        <span class="material-symbols-outlined text-primary text-[16px] mt-0.5">arrow_right</span>
+                                        <span><?= htmlspecialchars($f) ?></span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <?php endif; ?>
+                        
+                        <?php if(!empty($layananArr)): ?>
+                        <div>
+                            <h4 class="font-bold text-on-surface mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-secondary text-[20px]">local_hospital</span> Layanan Spesialis
+                            </h4>
+                            <ul class="space-y-2">
+                                <?php foreach($layananArr as $l): ?>
+                                    <li class="flex items-start gap-2 text-on-surface-variant">
+                                        <span class="material-symbols-outlined text-primary text-[16px] mt-0.5">arrow_right</span>
+                                        <span><?= htmlspecialchars($l) ?></span>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <!-- Jadwal Dokter -->
+                <?php 
+                $jadwalArr = !empty($hospital['jadwal_dokter']) ? json_decode($hospital['jadwal_dokter'], true) : [];
+                if (!empty($jadwalArr)):
+                ?>
+                <div class="bg-white rounded-2xl border border-outline-variant p-8 shadow-sm">
+                    <h3 class="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">event_note</span>
+                        Jadwal Dokter
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-surface-container-low border-b border-outline-variant">
+                                    <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant">Hari</th>
+                                    <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant">Jam Praktek</th>
+                                    <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant">Nama Dokter</th>
+                                    <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant">Spesialisasi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-outline-variant">
+                                <?php foreach($jadwalArr as $j): ?>
+                                    <tr class="hover:bg-surface-container-lowest transition-colors">
+                                        <td class="px-4 py-3 text-sm text-on-surface"><?= htmlspecialchars($j['hari'] ?? '-') ?></td>
+                                        <td class="px-4 py-3 text-sm text-on-surface font-medium"><?= htmlspecialchars($j['jam'] ?? '-') ?></td>
+                                        <td class="px-4 py-3 text-sm text-on-surface font-bold text-primary"><?= htmlspecialchars($j['nama_dokter'] ?? '-') ?></td>
+                                        <td class="px-4 py-3 text-sm text-on-surface-variant"><?= htmlspecialchars($j['spesialisasi'] ?? '-') ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <?php endif; ?>
             </div>
 
             <!-- Sidebar: Map + Actions -->

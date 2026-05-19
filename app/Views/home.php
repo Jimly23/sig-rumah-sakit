@@ -27,6 +27,10 @@
                     <span class="material-symbols-outlined">map</span>
                     Lihat Peta
                 </a>
+                <a href="<?= base_url('hospitals') ?>" class="bg-secondary px-8 py-4 text-white rounded-xl font-bold flex items-center gap-2 hover:bg-opacity-90 transition-all hover:-translate-y-1 shadow-lg shadow-secondary/30">
+                    <span class="material-symbols-outlined">list_alt</span>
+                    Daftar Rumah Sakit
+                </a>
                 <a href="#about" class="bg-white border-2 border-outline-variant text-on-surface-variant px-8 py-4 rounded-xl font-bold hover:border-primary hover:text-primary transition-all hover:-translate-y-1 shadow-sm">
                     Pelajari Lebih Lanjut
                 </a>

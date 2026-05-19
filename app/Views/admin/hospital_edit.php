@@ -163,6 +163,126 @@
                 </div>
             </div>
 
+            <!-- Fasilitas & Layanan -->
+            <?php
+            $fasilitasArr = !empty($hospital['fasilitas']) ? json_decode($hospital['fasilitas'], true) : [];
+            $layananArr = !empty($hospital['layanan']) ? json_decode($hospital['layanan'], true) : [];
+            $jadwalArr = !empty($hospital['jadwal_dokter']) ? json_decode($hospital['jadwal_dokter'], true) : [];
+            ?>
+            <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-6 mb-6">
+                <h3 class="font-bold text-on-surface text-lg mb-6 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">medical_services</span>
+                    Fasilitas & Layanan
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-on-surface mb-2">Fasilitas Rumah Sakit</label>
+                        <div id="fasilitas-container" class="space-y-2">
+                            <?php if(!empty($fasilitasArr)): ?>
+                                <?php foreach($fasilitasArr as $f): ?>
+                                    <div class="flex gap-2">
+                                        <input type="text" name="fasilitas[]" value="<?= htmlspecialchars($f) ?>" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm">
+                                        <button type="button" class="bg-error/10 text-error px-3 rounded-xl hover:bg-error/20 transition-colors" onclick="this.parentElement.remove()">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="flex gap-2">
+                                    <input type="text" name="fasilitas[]" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Contoh: UGD 24 Jam">
+                                    <button type="button" class="bg-primary/10 text-primary px-3 rounded-xl hover:bg-primary/20 transition-colors" onclick="addFasilitas()">
+                                        <span class="material-symbols-outlined">add</span>
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php if(!empty($fasilitasArr)): ?>
+                        <button type="button" class="mt-2 text-sm bg-primary/10 text-primary px-4 py-2 rounded-lg font-bold hover:bg-primary/20 transition-colors flex items-center gap-1" onclick="addFasilitas()">
+                            <span class="material-symbols-outlined text-[18px]">add</span> Tambah Fasilitas
+                        </button>
+                        <?php endif; ?>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-on-surface mb-2">Layanan Spesialis</label>
+                        <div id="layanan-container" class="space-y-2">
+                            <?php if(!empty($layananArr)): ?>
+                                <?php foreach($layananArr as $l): ?>
+                                    <div class="flex gap-2">
+                                        <input type="text" name="layanan[]" value="<?= htmlspecialchars($l) ?>" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm">
+                                        <button type="button" class="bg-error/10 text-error px-3 rounded-xl hover:bg-error/20 transition-colors" onclick="this.parentElement.remove()">
+                                            <span class="material-symbols-outlined">delete</span>
+                                        </button>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="flex gap-2">
+                                    <input type="text" name="layanan[]" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Contoh: Spesialis Jantung">
+                                    <button type="button" class="bg-primary/10 text-primary px-3 rounded-xl hover:bg-primary/20 transition-colors" onclick="addLayanan()">
+                                        <span class="material-symbols-outlined">add</span>
+                                    </button>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php if(!empty($layananArr)): ?>
+                        <button type="button" class="mt-2 text-sm bg-primary/10 text-primary px-4 py-2 rounded-lg font-bold hover:bg-primary/20 transition-colors flex items-center gap-1" onclick="addLayanan()">
+                            <span class="material-symbols-outlined text-[18px]">add</span> Tambah Layanan
+                        </button>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jadwal Dokter -->
+            <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-6 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-on-surface text-lg flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">event_note</span>
+                        Jadwal Dokter
+                    </h3>
+                    <button type="button" class="text-sm bg-primary/10 text-primary px-4 py-2 rounded-lg font-bold hover:bg-primary/20 transition-colors flex items-center gap-1" onclick="addJadwal()">
+                        <span class="material-symbols-outlined text-[18px]">add</span> Tambah Jadwal
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left" id="jadwal-table">
+                        <thead>
+                            <tr class="bg-surface-container border-b border-outline-variant">
+                                <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant w-1/4">Hari</th>
+                                <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant w-1/4">Jam Praktek</th>
+                                <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant w-1/4">Nama Dokter</th>
+                                <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant w-1/4">Spesialisasi</th>
+                                <th class="px-4 py-3 font-semibold text-sm text-on-surface-variant w-16 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="jadwal-container">
+                            <?php if(!empty($jadwalArr)): ?>
+                                <?php foreach($jadwalArr as $idx => $j): ?>
+                                    <tr class="border-b border-outline-variant">
+                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][hari]" value="<?= htmlspecialchars($j['hari'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm"></td>
+                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][jam]" value="<?= htmlspecialchars($j['jam'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm"></td>
+                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][nama_dokter]" value="<?= htmlspecialchars($j['nama_dokter'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm"></td>
+                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][spesialisasi]" value="<?= htmlspecialchars($j['spesialisasi'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm"></td>
+                                        <td class="p-2 text-center">
+                                            <button type="button" class="text-error hover:bg-error/10 p-1 rounded transition-colors" onclick="this.closest('tr').remove()"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr class="border-b border-outline-variant">
+                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][hari]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Senin - Jumat"></td>
+                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][jam]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="08:00 - 14:00"></td>
+                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][nama_dokter]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="dr. Budi, Sp.PD"></td>
+                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][spesialisasi]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Penyakit Dalam"></td>
+                                    <td class="p-2 text-center">
+                                        <button type="button" class="text-error hover:bg-error/10 p-1 rounded transition-colors" onclick="this.closest('tr').remove()"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="flex justify-end">
                 <button type="submit" class="bg-primary hover:bg-primary-container text-white px-8 py-3 rounded-xl flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-all font-bold">
                     <span class="material-symbols-outlined">save</span>
@@ -257,5 +377,49 @@
             marker = L.marker(newLatLng, {icon: customIcon}).addTo(map);
         }
     });
+
+    function addFasilitas() {
+        const container = document.getElementById('fasilitas-container');
+        const div = document.createElement('div');
+        div.className = 'flex gap-2 mt-2';
+        div.innerHTML = `
+            <input type="text" name="fasilitas[]" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Tambahan fasilitas...">
+            <button type="button" class="bg-error/10 text-error px-3 rounded-xl hover:bg-error/20 transition-colors" onclick="this.parentElement.remove()">
+                <span class="material-symbols-outlined">delete</span>
+            </button>
+        `;
+        container.appendChild(div);
+    }
+
+    function addLayanan() {
+        const container = document.getElementById('layanan-container');
+        const div = document.createElement('div');
+        div.className = 'flex gap-2 mt-2';
+        div.innerHTML = `
+            <input type="text" name="layanan[]" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Tambahan layanan...">
+            <button type="button" class="bg-error/10 text-error px-3 rounded-xl hover:bg-error/20 transition-colors" onclick="this.parentElement.remove()">
+                <span class="material-symbols-outlined">delete</span>
+            </button>
+        `;
+        container.appendChild(div);
+    }
+
+    let jadwalIndex = <?= !empty($jadwalArr) ? count($jadwalArr) : 1 ?>;
+    function addJadwal() {
+        const container = document.getElementById('jadwal-container');
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-outline-variant';
+        tr.innerHTML = `
+            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][hari]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Senin - Jumat"></td>
+            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][jam]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="08:00 - 14:00"></td>
+            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][nama_dokter]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="dr. Budi, Sp.PD"></td>
+            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][spesialisasi]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Penyakit Dalam"></td>
+            <td class="p-2 text-center">
+                <button type="button" class="text-error hover:bg-error/10 p-1 rounded transition-colors" onclick="this.closest('tr').remove()"><span class="material-symbols-outlined text-[20px]">delete</span></button>
+            </td>
+        `;
+        container.appendChild(tr);
+        jadwalIndex++;
+    }
 </script>
 <?= $this->endSection() ?>

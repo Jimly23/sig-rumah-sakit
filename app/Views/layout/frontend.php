@@ -80,16 +80,42 @@
             <a class="font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('#map') ?>">Peta Lokasi</a>
             <a class="font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('hospitals') ?>">Daftar RS</a>
         </div>
-        <?php if(session()->get('logged_in')): ?>
-            <a href="<?= base_url('admin') ?>" class="bg-primary-container text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 active:scale-95 transition-all shadow-sm">
-                Dashboard Admin
-            </a>
-        <?php else: ?>
-            <a href="<?= base_url('auth/login') ?>" class="bg-primary-container text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 active:scale-95 transition-all shadow-sm">
-                Login Admin
-            </a>
-        <?php endif; ?>
+        <div class="hidden md:block">
+            <?php if(session()->get('logged_in')): ?>
+                <a href="<?= base_url('admin') ?>" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-container active:scale-95 transition-all shadow-sm">
+                    Dashboard Admin
+                </a>
+            <?php else: ?>
+                <a href="<?= base_url('auth/login') ?>" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-container active:scale-95 transition-all shadow-sm">
+                    Login Admin
+                </a>
+            <?php endif; ?>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden text-primary p-2">
+            <span class="material-symbols-outlined text-3xl">menu</span>
+        </button>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-outline-variant px-container-margin py-4 space-y-4 shadow-lg absolute w-full left-0">
+        <a class="block font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200 py-2 border-b border-outline-variant/30" href="<?= base_url('#hero') ?>">Beranda</a>
+        <a class="block font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200 py-2 border-b border-outline-variant/30" href="<?= base_url('#about') ?>">Tentang</a>
+        <a class="block font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200 py-2 border-b border-outline-variant/30" href="<?= base_url('#map') ?>">Peta Lokasi</a>
+        <a class="block font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200 py-2 border-b border-outline-variant/30" href="<?= base_url('hospitals') ?>">Daftar RS</a>
+        <div class="pt-2">
+            <?php if(session()->get('logged_in')): ?>
+                <a href="<?= base_url('admin') ?>" class="block w-full text-center bg-primary text-white px-6 py-3 rounded-xl font-semibold active:scale-95 transition-all shadow-sm">
+                    Dashboard Admin
+                </a>
+            <?php else: ?>
+                <a href="<?= base_url('auth/login') ?>" class="block w-full text-center bg-primary text-white px-6 py-3 rounded-xl font-semibold active:scale-95 transition-all shadow-sm">
+                    Login Admin
+                </a>
+            <?php endif; ?>
+        </div>
+    </div>
 </header>
 
 <main class="pt-24 flex-grow">
@@ -130,6 +156,15 @@
     </div>
 </footer>
 
+<script>
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+</script>
 <?= $this->renderSection('scripts') ?>
 </body>
 </html>

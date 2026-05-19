@@ -79,6 +79,9 @@ class Admin extends BaseController
             'deskripsi'       => $this->request->getPost('deskripsi'),
             'galeri'          => !empty($galeriNames) ? json_encode($galeriNames) : null,
             'link_gmaps'      => $this->request->getPost('link_gmaps'),
+            'fasilitas'       => $this->request->getPost('fasilitas') ? json_encode(array_values(array_filter($this->request->getPost('fasilitas')))) : null,
+            'layanan'         => $this->request->getPost('layanan') ? json_encode(array_values(array_filter($this->request->getPost('layanan')))) : null,
+            'jadwal_dokter'   => $this->request->getPost('jadwal_dokter') ? json_encode(array_values(array_filter($this->request->getPost('jadwal_dokter'), function($j) { return !empty($j['nama_dokter']); }))) : null,
         ];
         $hospitalModel->insert($data);
         return redirect()->to(base_url('admin'))->with('success', 'Data rumah sakit berhasil ditambahkan');
@@ -160,6 +163,9 @@ class Admin extends BaseController
             'deskripsi'       => $this->request->getPost('deskripsi'),
             'galeri'          => !empty($galeriNames) ? json_encode($galeriNames) : null,
             'link_gmaps'      => $this->request->getPost('link_gmaps'),
+            'fasilitas'       => $this->request->getPost('fasilitas') ? json_encode(array_values(array_filter($this->request->getPost('fasilitas')))) : null,
+            'layanan'         => $this->request->getPost('layanan') ? json_encode(array_values(array_filter($this->request->getPost('layanan')))) : null,
+            'jadwal_dokter'   => $this->request->getPost('jadwal_dokter') ? json_encode(array_values(array_filter($this->request->getPost('jadwal_dokter'), function($j) { return !empty($j['nama_dokter']); }))) : null,
         ];
         $hospitalModel->update($id, $data);
         return redirect()->to(base_url('admin'))->with('success', 'Data rumah sakit berhasil diupdate');
