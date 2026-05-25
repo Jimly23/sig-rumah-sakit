@@ -242,57 +242,61 @@
 <?= $this->section('scripts') ?>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map').setView([-6.8694, 109.0436], 12);
-    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
-        maxZoom: 17
-    }).addTo(map);
+    if (document.getElementById('map')) {
+        var map = L.map('map').setView([-6.8694, 109.0436], 12);
+        L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
+            maxZoom: 17
+        }).addTo(map);
 
-    var marker;
-    var customIcon = L.divIcon({
-        className: 'custom-map-icon',
-        html: `<span class="material-symbols-outlined text-4xl" style="color:#003178; text-shadow:1px 1px 2px rgba(0,0,0,0.3);">location_on</span>`,
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-    });
+        var marker;
+        var customIcon = L.divIcon({
+            className: 'custom-map-icon',
+            html: `<span class="material-symbols-outlined text-4xl" style="color:#003178; text-shadow:1px 1px 2px rgba(0,0,0,0.3);">location_on</span>`,
+            iconSize: [40, 40],
+            iconAnchor: [20, 40],
+        });
 
-    map.on('click', function(e) {
-        if (marker) map.removeLayer(marker);
-        marker = L.marker(e.latlng, {icon: customIcon}).addTo(map);
-        document.getElementById('latitude').value = e.latlng.lat;
-        document.getElementById('longitude').value = e.latlng.lng;
-    });
-
-    function updateMapFromInput() {
-        let lat = parseFloat(document.getElementById('latitude').value);
-        let lng = parseFloat(document.getElementById('longitude').value);
-        
-        if (!isNaN(lat) && !isNaN(lng)) {
-            let newLatLng = new L.LatLng(lat, lng);
-            map.setView(newLatLng, 15);
+        map.on('click', function(e) {
             if (marker) map.removeLayer(marker);
-            marker = L.marker(newLatLng, {icon: customIcon}).addTo(map);
-        }
-    }
+            marker = L.marker(e.latlng, {icon: customIcon}).addTo(map);
+            document.getElementById('latitude').value = e.latlng.lat;
+            document.getElementById('longitude').value = e.latlng.lng;
+        });
 
-    document.getElementById('latitude').addEventListener('input', updateMapFromInput);
-    document.getElementById('longitude').addEventListener('input', updateMapFromInput);
+        function updateMapFromInput() {
+            let lat = parseFloat(document.getElementById('latitude').value);
+            let lng = parseFloat(document.getElementById('longitude').value);
+            
+            if (!isNaN(lat) && !isNaN(lng)) {
+                let newLatLng = new L.LatLng(lat, lng);
+                map.setView(newLatLng, 15);
+                if (marker) map.removeLayer(marker);
+                marker = L.marker(newLatLng, {icon: customIcon}).addTo(map);
+            }
+        }
+
+        document.getElementById('latitude').addEventListener('input', updateMapFromInput);
+        document.getElementById('longitude').addEventListener('input', updateMapFromInput);
+    }
 
     // Google Maps Embed Preview
     var gmapsInput = document.getElementById('link_gmaps');
     var gmapsPreview = document.getElementById('gmaps-preview');
     var gmapsIframe = document.getElementById('gmaps-iframe');
 
-    gmapsInput.addEventListener('input', function() {
-        var url = this.value.trim();
-        if (url) {
-            gmapsIframe.src = url;
-            gmapsPreview.style.display = 'block';
-        } else {
-            gmapsIframe.src = '';
-            gmapsPreview.style.display = 'none';
-        }
-    });
+    if (gmapsInput && gmapsPreview && gmapsIframe) {
+        gmapsInput.addEventListener('input', function() {
+            var url = this.value.trim();
+            if (url) {
+                gmapsIframe.src = url;
+                gmapsPreview.style.display = 'block';
+            } else {
+                gmapsIframe.src = '';
+                gmapsPreview.style.display = 'none';
+            }
+        });
+    }
 
     function addFasilitas() {
         const container = document.getElementById('fasilitas-container');

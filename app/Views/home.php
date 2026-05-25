@@ -37,9 +37,9 @@
         <div class="hidden lg:block relative">
             <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] transform rotate-3 scale-105 blur-xl"></div>
             <div class="relative bg-white p-4 rounded-[3rem] shadow-2xl border border-white/50">
-                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop" alt="Hospital Building" class="rounded-[2.5rem] w-full h-[400px] object-cover shadow-inner">
+                <img src="<?= base_url('images/logo-hero.png') ?>" alt="Hospital Building" class="rounded-[2.5rem] w-full h-[400px] object-cover shadow-inner">
                 
-                <div class="absolute -left-8 top-32 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-4 hover-scale">
+                <!-- <div class="absolute -left-8 top-32 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-4 hover-scale">
                     <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
                         <span class="material-symbols-outlined fill-icon">check_circle</span>
                     </div>
@@ -47,7 +47,7 @@
                         <p class="text-xs text-on-surface-variant font-semibold uppercase">Sistem Status</p>
                         <p class="text-sm font-bold text-on-surface">Online & Aktif</p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
