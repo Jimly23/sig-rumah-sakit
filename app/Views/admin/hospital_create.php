@@ -14,7 +14,7 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-    <div class="lg:col-span-2">
+    <div class="lg:col-span-3">
         <form action="<?= base_url('admin/store') ?>" method="post" enctype="multipart/form-data">
             <!-- Informasi Utama -->
             <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-6 mb-6">
@@ -78,6 +78,11 @@
                             <label class="block text-sm font-semibold text-on-surface mb-2">Longitude <span class="text-error">*</span></label>
                             <input type="text" name="longitude" id="longitude" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm font-mono" required>
                         </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-on-surface mb-2">Link Google Maps Embed</label>
+                        <input type="url" name="link_gmaps" id="link_gmaps" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="https://www.google.com/maps/embed?pb=...">
+                        <p class="text-xs text-on-surface-variant mt-2">Masukkan link embed Google Maps untuk menampilkan peta interaktif.</p>
                     </div>
                 </div>
             </div>
@@ -211,18 +216,21 @@
     </div>
 
     <!-- Map Picker Sidebar -->
-    <div class="lg:col-span-1">
-        <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm sticky top-24">
-            <div class="px-6 py-4 border-b border-outline-variant bg-surface-container-lowest flex items-center justify-between">
-                <h4 class="font-bold text-on-surface">Penentuan Lokasi</h4>
-                <span class="material-symbols-outlined text-secondary">location_on</span>
+    <!-- <div class="lg:col-span-1 space-y-6">
+        <div class="bg-white rounded-2xl border border-outline-variant p-6 shadow-sm sticky top-24">
+            <h3 class="font-bold text-on-surface mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">map</span>
+                Peta Lokasi
+            </h3>
+
+            <div id="gmaps-preview" class="w-full aspect-square rounded-xl border border-outline-variant z-0 mb-4 overflow-hidden" style="display:none;">
+                <iframe id="gmaps-iframe" src="" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
-            <div class="p-4">
-                <p class="text-sm text-on-surface-variant mb-4">Klik pada peta untuk menentukan koordinat lokasi rumah sakit.</p>
-                <div id="map" class="w-full aspect-square rounded-xl border border-outline-variant z-0"></div>
-            </div>
+
+            <p class="text-sm text-on-surface-variant mb-4">Klik pada peta untuk menentukan koordinat lokasi rumah sakit.</p>
+            <div id="map" class="w-full aspect-square rounded-xl border border-outline-variant z-0 mb-4 overflow-hidden"></div>
         </div>
-    </div>
+    </div> -->
 </div>
 
 <?= $this->endSection() ?>
@@ -235,8 +243,9 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     var map = L.map('map').setView([-6.8694, 109.0436], 12);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
+    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://opentopomap.org">OpenTopoMap</a>',
+        maxZoom: 17
     }).addTo(map);
 
     var marker;
@@ -268,6 +277,22 @@
 
     document.getElementById('latitude').addEventListener('input', updateMapFromInput);
     document.getElementById('longitude').addEventListener('input', updateMapFromInput);
+
+    // Google Maps Embed Preview
+    var gmapsInput = document.getElementById('link_gmaps');
+    var gmapsPreview = document.getElementById('gmaps-preview');
+    var gmapsIframe = document.getElementById('gmaps-iframe');
+
+    gmapsInput.addEventListener('input', function() {
+        var url = this.value.trim();
+        if (url) {
+            gmapsIframe.src = url;
+            gmapsPreview.style.display = 'block';
+        } else {
+            gmapsIframe.src = '';
+            gmapsPreview.style.display = 'none';
+        }
+    });
 
     function addFasilitas() {
         const container = document.getElementById('fasilitas-container');
