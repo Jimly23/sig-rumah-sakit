@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <section class="py-12 bg-surface px-container-margin min-h-[70vh]">
-    <div class="max-w-[1440px] mx-auto">
+    <div class="max-w-[1080px] mx-auto">
         <a href="<?= base_url('hospitals') ?>" class="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary mb-8 transition-colors">
             <span class="material-symbols-outlined">arrow_back</span>
             Kembali ke Daftar Rumah Sakit

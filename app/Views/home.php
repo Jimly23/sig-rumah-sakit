@@ -8,13 +8,13 @@
     <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
     <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4"></div>
     
-    <div class="max-w-[1440px] mx-auto px-container-margin relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center">
-        <div class="space-y-8 max-w-2xl">
+    <div class="max-w-[1080px] mx-auto px-container-margin relative z-10 w-full grid lg:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8 max-w-2xl py-16">
             <div class="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 text-secondary rounded-full font-label-caps text-xs font-bold tracking-widest border border-secondary/20 shadow-sm">
                 <span class="material-symbols-outlined text-[16px] fill-icon animate-pulse">my_location</span>
                 REAL-TIME GIS UPDATE
             </div>
-            <h1 class="text-5xl md:text-6xl font-extrabold text-primary leading-tight tracking-tight">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-primary leading-tight tracking-tight">
                 Akses Kesehatan <br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Terdekat & Tercepat</span><br>
                 di Kabupaten Brebes
@@ -31,16 +31,13 @@
                     <span class="material-symbols-outlined">list_alt</span>
                     Daftar Rumah Sakit
                 </a>
-                <a href="#about" class="bg-white border-2 border-outline-variant text-on-surface-variant px-8 py-4 rounded-xl font-bold hover:border-primary hover:text-primary transition-all hover:-translate-y-1 shadow-sm">
-                    Pelajari Lebih Lanjut
-                </a>
             </div>
         </div>
         
         <div class="hidden lg:block relative">
             <div class="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent rounded-[3rem] transform rotate-3 scale-105 blur-xl"></div>
             <div class="relative bg-white p-4 rounded-[3rem] shadow-2xl border border-white/50">
-                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop" alt="Hospital Building" class="rounded-[2.5rem] w-full h-[500px] object-cover shadow-inner">
+                <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2053&auto=format&fit=crop" alt="Hospital Building" class="rounded-[2.5rem] w-full h-[400px] object-cover shadow-inner">
                 
                 <div class="absolute -left-8 top-32 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-4 hover-scale">
                     <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
@@ -58,11 +55,11 @@
 
 <!-- 2. About Section -->
 <section id="about" class="py-24 bg-white px-container-margin">
-    <div class="max-w-[1440px] mx-auto">
+    <div class="max-w-[1080px] mx-auto">
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div class="relative hidden lg:block">
                 <div class="absolute inset-0 bg-gradient-to-br from-secondary/20 to-transparent rounded-[3rem] transform -rotate-3 scale-105 blur-xl"></div>
-                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1760&auto=format&fit=crop" alt="Medical Map Concept" class="rounded-[3rem] shadow-2xl border border-outline-variant/30 relative z-10 w-full object-cover h-[500px]">
+                <img src="<?= base_url('images/logo-sig.png') ?>" alt="Logo SIG" class="rounded-[3rem] shadow-2xl border border-outline-variant/30 relative z-10 w-full object-contain p-8 bg-white h-[500px]">
             </div>
             <div class="space-y-8">
                 <div>
@@ -95,7 +92,7 @@
 
 <!-- 3. Map Section -->
 <section id="map" class="py-24 bg-surface px-container-margin border-t border-outline-variant/30">
-    <div class="max-w-[1440px] mx-auto">
+    <div class="max-w-[1080px] mx-auto">
         <div class="text-center max-w-2xl mx-auto mb-12">
             <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">Peta Sebaran Rumah Sakit</h2>
             <p class="text-on-surface-variant">Jelajahi lokasi rumah sakit di wilayah Kabupaten Brebes menggunakan sistem informasi geografis interaktif kami.</p>
@@ -105,7 +102,7 @@
 
             <!-- Map Container -->
             <div class="relative">
-                <div id="map-container" class="w-full aspect-square md:aspect-[21/9]"></div>
+                <div id="map-container" class="w-full aspect-square md:aspect-[21/9] z-0"></div>
 
                 <!-- Detail Rumah Sakit button — overlay pojok kanan bawah -->
                 <div class="absolute bottom-4 right-4 z-[999]">
@@ -193,11 +190,47 @@
 <?= $this->section('scripts') ?>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    var map = L.map('map-container').setView([-6.8694, 109.0436], 12); // Default Brebes
+    // ─── LEAFLET MAP ──────────────────────────────────────────
+    const mapCenter = [-7.0500, 108.9000]; // Default Brebes
+    const initialZoom = window.innerWidth < 768 ? 9.4 : 9.9;
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    var map = L.map('map-container', {
+        center: mapCenter,
+        zoom: initialZoom,
+        zoomSnap: 0.5,
+        zoomDelta: 0.5,
+        zoomControl: true,
+        attributionControl: true,
+    });
+
+    // ─── TILE LAYERS ──────────────────────────────────────────
+    // Satelit (Google) — default
+    const satelit = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        attribution: '&copy; Google Maps'
+    });
+
+    // Peta biasa (OpenStreetMap)
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    // Hybrid (Google Satellite + label)
+    const hybrid = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        attribution: '&copy; Google Maps'
+    });
+
+    // Set satelit sebagai default
+    satelit.addTo(map);
+
+    // Layer control (pojok kanan atas)
+    L.control.layers({
+        '🛰️ Satelit': satelit,
+        '🗺️ Peta': osm,
+        '🌍 Hybrid': hybrid,
+    }, null, { position: 'topright', collapsed: true }).addTo(map);
 
     var hospitals = <?= json_encode($hospitals) ?>;
     
@@ -212,6 +245,54 @@
         popupAnchor: [0, -40]
     });
 
+    var activeKecamatan = null;
+    var geoJsonLayer = null;
+
+    // Fungsi highlight kecamatan
+    function highlightKecamatan(kecName) {
+        if (!geoJsonLayer) return;
+
+        // Reset semua layer
+        geoJsonLayer.eachLayer(function(layer) {
+            if (layer.feature && layer.feature.properties.nama === 'Brebes') return; // Sesuaikan dengan batas luar bila ada
+            layer.setStyle({
+                fillOpacity: 0.10,
+                weight: 2,
+                dashArray: '5, 5',
+                opacity: 0.5,
+            });
+        });
+
+        // Highlight yang dipilih
+        activeKecamatan = kecName;
+        geoJsonLayer.eachLayer(function(layer) {
+            if (layer.feature && layer.feature.properties.nama === kecName) {
+                layer.setStyle({
+                    fillOpacity: 0.45,
+                    weight: 4,
+                    dashArray: '',
+                    opacity: 1,
+                });
+                layer.bringToFront();
+            }
+        });
+    }
+
+    // Reset highlight
+    function resetHighlight() {
+        if (!geoJsonLayer) return;
+        activeKecamatan = null;
+        geoJsonLayer.eachLayer(function(layer) {
+            layer.setStyle({
+                fillOpacity: 0.15,
+                weight: 2,
+                dashArray: '5, 5',
+                opacity: 0.8,
+            });
+        });
+    }
+
+    var markers = [];
     hospitals.forEach(function(hospital) {
         if(hospital.latitude && hospital.longitude) {
             var marker = L.marker([hospital.latitude, hospital.longitude], {icon: customIcon}).addTo(map);
@@ -225,6 +306,26 @@
             marker.bindPopup(popupContent, {
                 className: 'modern-popup'
             });
+
+            // Klik marker → zoom + highlight kecamatan
+            marker.on('click', function() {
+                map.flyTo([hospital.latitude, hospital.longitude], 14, { duration: 0.8 });
+                if (hospital.kecamatan) {
+                    highlightKecamatan(hospital.kecamatan);
+                }
+            });
+
+            markers.push(marker);
+        }
+    });
+
+    // Klik di area kosong → reset
+    map.on('click', function(e) {
+        // Hanya reset jika tidak klik marker/popup
+        if (!e.originalEvent.target.closest('.leaflet-marker-icon') &&
+            !e.originalEvent.target.closest('.leaflet-popup')) {
+            resetHighlight();
+            map.flyTo(mapCenter, initialZoom, { duration: 0.5 });
         }
     });
 
@@ -237,9 +338,6 @@
         'Salem':        { color: '#075985', fillColor: '#0284c7' },
         'Bumiayu':      { color: '#065f46', fillColor: '#059669' }
     };
-
-    var activeKecamatan = null;
-    var geoJsonLayer = null;
 
     // Animated counter
     function animateCounter(el, target) {
@@ -260,7 +358,7 @@
     if (rsCountEl) animateCounter(rsCountEl, hospitals.length);
 
     // Load GeoJSON layer
-    fetch('<?= base_url('data/map.geojson') ?>')
+    fetch('<?= base_url('data/brebes.geojson') ?>')
         .then(response => response.json())
         .then(data => {
             // Normalize nama
@@ -277,8 +375,8 @@
 
             geoJsonLayer = L.geoJSON(data, {
                 style: function(feature) {
-                    var kecName = feature.properties.nama;
-                    var colorSet = kecamatanColors[kecName] || { color: '#6b7280', fillColor: '#9ca3af' };
+                    // Semua wilayah di-set ke warna kuning
+                    var colorSet = { color: '#ca8a04', fillColor: '#facc15' };
                     return {
                         color: colorSet.color,
                         fillColor: colorSet.fillColor,
@@ -290,7 +388,7 @@
                 },
                 onEachFeature: function(feature, layer) {
                     var kecName = feature.properties.nama;
-                    var colorSet = kecamatanColors[kecName] || { color: '#6b7280' };
+                    var colorSet = { color: '#ca8a04' };
 
                     // Tooltip nama kecamatan
                     layer.bindTooltip(

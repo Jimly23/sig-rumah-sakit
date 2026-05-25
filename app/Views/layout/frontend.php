@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="icon" type="image/png" href="<?= base_url('images/logo-brebes.png') ?>">
     <title>Brebes MedGIS - Sistem Informasi Geografis Rumah Sakit</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -72,21 +73,24 @@
 
 <!-- Top Navigation Bar -->
 <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-md border-b border-outline-variant" id="navbar">
-    <nav class="flex justify-between items-center w-full px-container-margin max-w-[1440px] mx-auto h-20">
-        <a href="<?= base_url() ?>" class="font-headline-lg text-headline-lg font-bold text-primary">Brebes MedGIS</a>
+    <nav class="flex justify-between items-center w-full px-container-margin max-w-[1080px] mx-auto h-20">
+        <a href="<?= base_url() ?>" class="font-headline-lg text-headline-lg font-bold text-primary flex items-center gap-3">
+            <img src="<?= base_url('images/logo-brebes.png') ?>" alt="Logo Brebes" class="w-10 h-10 object-contain">
+            Brebes MedGIS
+        </a>
         <div class="hidden md:flex items-center gap-8">
-            <a class="font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('#hero') ?>">Beranda</a>
-            <a class="font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('#about') ?>">Tentang</a>
-            <a class="font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('#map') ?>">Peta Lokasi</a>
-            <a class="font-title-md text-title-md text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('hospitals') ?>">Daftar RS</a>
+            <a class="font-title-md text-title-md text-sm text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('#hero') ?>">Beranda</a>
+            <a class="font-title-md text-title-md text-sm text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('#about') ?>">Tentang</a>
+            <a class="font-title-md text-title-md text-sm text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('#map') ?>">Peta Lokasi</a>
+            <a class="font-title-md text-title-md text-sm text-on-surface-variant hover:text-secondary transition-colors duration-200" href="<?= base_url('hospitals') ?>">Daftar RS</a>
         </div>
         <div class="hidden md:block">
             <?php if(session()->get('logged_in')): ?>
-                <a href="<?= base_url('admin') ?>" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-container active:scale-95 transition-all shadow-sm">
+                <a href="<?= base_url('admin') ?>" class="bg-primary text-white text-sm px-6 py-3 rounded-xl font-semibold hover:bg-primary-container active:scale-95 transition-all shadow-sm">
                     Dashboard Admin
                 </a>
             <?php else: ?>
-                <a href="<?= base_url('auth/login') ?>" class="bg-primary text-white px-6 py-3 rounded-xl font-semibold hover:bg-primary-container active:scale-95 transition-all shadow-sm">
+                <a href="<?= base_url('auth/login') ?>" class="bg-primary text-white text-sm px-6 py-3 rounded-xl font-semibold hover:bg-primary-container active:scale-95 transition-all shadow-sm">
                     Login Admin
                 </a>
             <?php endif; ?>
@@ -124,7 +128,7 @@
 
 <!-- Footer -->
 <footer class="bg-surface-container-highest border-t border-outline-variant mt-12">
-    <div class="w-full py-12 px-container-margin max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between gap-8">
+    <div class="w-full py-12 px-container-margin max-w-[1080px] mx-auto flex flex-col md:flex-row justify-between gap-8">
         <div class="max-w-sm">
             <div class="font-title-md text-title-md font-bold text-primary mb-4">Brebes MedGIS</div>
             <p class="text-on-surface-variant text-body-sm leading-relaxed">

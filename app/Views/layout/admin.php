@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <link rel="icon" type="image/png" href="<?= base_url('images/logo-brebes.png') ?>">
     <title>MediGIS Admin - Hospital Management System</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
@@ -68,10 +69,13 @@
 </head>
 <body class="bg-surface-bright technical-grid min-h-screen">
 <!-- SideNavBar Shell -->
-<aside class="fixed left-0 top-0 h-full w-[320px] bg-surface-container-low border-r border-outline-variant flex flex-col p-4 z-50">
-    <div class="mb-8 px-4 py-2">
-        <h1 class="font-title-md text-title-md font-bold text-primary">MediGIS Admin</h1>
-        <p class="text-on-surface-variant text-sm">Hospital Management</p>
+<aside id="sidebar-admin" class="transform -translate-x-full md:translate-x-0 transition-transform duration-300 fixed left-0 top-0 h-full w-[320px] bg-surface-container-low border-r border-outline-variant flex flex-col p-4 z-50">
+    <div class="mb-8 px-4 py-2 flex items-center gap-3">
+        <img src="<?= base_url('images/logo-brebes.png') ?>" alt="Logo Brebes" class="w-10 h-10 object-contain">
+        <div>
+            <h1 class="font-title-md text-title-md font-bold text-primary">MediGIS Admin</h1>
+            <p class="text-on-surface-variant text-sm">Hospital Management</p>
+        </div>
     </div>
     <nav class="flex-grow space-y-2">
         <a class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container font-bold rounded-lg" href="<?= base_url('admin') ?>">
@@ -99,11 +103,14 @@
 </aside>
 
 <!-- Main Content Canvas -->
-<main class="ml-[320px] min-h-screen flex flex-col">
+<main class="ml-0 md:ml-[320px] min-h-screen flex flex-col">
     <!-- TopAppBar -->
-    <header class="h-16 bg-surface border-b border-outline-variant flex items-center justify-between px-8 sticky top-0 z-40">
-        <div class="flex items-center gap-4 flex-1">
-            <div class="relative w-96">
+    <header class="h-16 bg-surface border-b border-outline-variant flex items-center justify-between px-4 md:px-8 sticky top-0 z-40">
+        <div class="flex items-center gap-2 md:gap-4 flex-1">
+            <button id="mobile-sidebar-btn" class="md:hidden hover:bg-surface-container-high rounded-full p-2 text-on-surface-variant active:scale-90 transition-transform">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <div class="relative w-full md:w-96">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
                 <input class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-secondary text-sm" placeholder="Cari data rumah sakit..." type="text"/>
             </div>
@@ -148,6 +155,26 @@
         });
         searchInput.addEventListener('blur', () => {
             searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+        });
+    }
+
+    // Sidebar Mobile Toggle
+    const mobileSidebarBtn = document.getElementById('mobile-sidebar-btn');
+    const sidebarAdmin = document.getElementById('sidebar-admin');
+    
+    if (mobileSidebarBtn && sidebarAdmin) {
+        mobileSidebarBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sidebarAdmin.classList.toggle('-translate-x-full');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 768) {
+                if (!sidebarAdmin.classList.contains('-translate-x-full') && !sidebarAdmin.contains(e.target) && !mobileSidebarBtn.contains(e.target)) {
+                    sidebarAdmin.classList.add('-translate-x-full');
+                }
+            }
         });
     }
 </script>

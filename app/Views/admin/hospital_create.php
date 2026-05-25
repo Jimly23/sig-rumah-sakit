@@ -101,7 +101,10 @@
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-on-surface mb-2">WhatsApp</label>
-                            <input type="text" name="whatsapp" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="08xxxxxxxxxx">
+                            <div class="flex items-center">
+                                <span class="inline-flex items-center px-4 rounded-l-xl border border-r-0 border-outline-variant bg-surface-container text-on-surface-variant text-sm h-[46px] font-semibold">+62</span>
+                                <input type="text" name="whatsapp" class="flex-1 w-full px-4 py-3 bg-surface-container-lowest rounded-r-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="8xxxxxxxxxx">
+                            </div>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">

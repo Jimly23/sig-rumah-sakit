@@ -4,8 +4,8 @@
 
 <div class="flex items-center justify-between mb-8">
     <div>
-        <h2 class="font-headline-lg text-headline-lg text-primary">Manajemen Data Rumah Sakit</h2>
-        <p class="text-on-surface-variant font-body-lg">Pantau dan kelola infrastruktur kesehatan wilayah secara real-time.</p>
+        <!-- <h2 class="font-headline-lg text-headline-lg text-primary">Manajemen Data Rumah Sakit</h2>
+        <p class="text-on-surface-variant font-body-lg">Pantau dan kelola infrastruktur kesehatan wilayah secara real-time.</p> -->
     </div>
     <a href="<?= base_url('admin/create') ?>" class="bg-primary hover:bg-primary-container text-white px-6 py-2.5 rounded-lg flex items-center gap-2 shadow-sm active:scale-95 transition-all font-semibold">
         <span class="material-symbols-outlined">add</span>

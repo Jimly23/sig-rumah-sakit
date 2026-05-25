@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <section class="py-12 bg-surface px-container-margin min-h-[70vh]">
-    <div class="max-w-[1440px] mx-auto">
+    <div class="max-w-[1080px] mx-auto">
         <div class="mb-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
                 <h2 class="font-headline-lg text-headline-lg text-primary">Daftar Rumah Sakit</h2>

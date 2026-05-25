@@ -60,6 +60,9 @@ class Admin extends BaseController
             }
         }
 
+        $waInput = $this->request->getPost('whatsapp');
+        $waFormatted = $waInput ? '+62' . ltrim(ltrim($waInput, '+62'), '0') : '';
+
         $data = [
             'nama'            => $this->request->getPost('nama'),
             'foto'            => $fotoName,
@@ -68,7 +71,7 @@ class Admin extends BaseController
             'alamat'          => $this->request->getPost('alamat'),
             'kecamatan'       => $this->request->getPost('kecamatan'),
             'telepon'         => $this->request->getPost('telepon'),
-            'whatsapp'        => $this->request->getPost('whatsapp'),
+            'whatsapp'        => $waFormatted,
             'email'           => $this->request->getPost('email'),
             'website'         => $this->request->getPost('website'),
             'jam_operasional' => $this->request->getPost('jam_operasional'),
@@ -144,6 +147,9 @@ class Admin extends BaseController
             }
         }
 
+        $waInput = $this->request->getPost('whatsapp');
+        $waFormatted = $waInput ? '+62' . ltrim(ltrim($waInput, '+62'), '0') : '';
+
         $data = [
             'nama'            => $this->request->getPost('nama'),
             'foto'            => $fotoName,
@@ -152,7 +158,7 @@ class Admin extends BaseController
             'alamat'          => $this->request->getPost('alamat'),
             'kecamatan'       => $this->request->getPost('kecamatan'),
             'telepon'         => $this->request->getPost('telepon'),
-            'whatsapp'        => $this->request->getPost('whatsapp'),
+            'whatsapp'        => $waFormatted,
             'email'           => $this->request->getPost('email'),
             'website'         => $this->request->getPost('website'),
             'jam_operasional' => $this->request->getPost('jam_operasional'),
