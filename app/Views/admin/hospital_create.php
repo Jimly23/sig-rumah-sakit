@@ -69,19 +69,14 @@
                         <label class="block text-sm font-semibold text-on-surface mb-2">Kecamatan</label>
                         <input type="text" name="kecamatan" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Contoh: Bumiayu">
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-on-surface mb-2">Link Google Maps (Embed URL)</label>
-                        <input type="text" name="link_gmaps" id="link_gmaps" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="https://www.google.com/maps/embed?pb=...">
-                        <p class="text-xs text-on-surface-variant mt-2">Buka Google Maps > Bagikan > Sematkan Peta > Salin URL pada atribut src="...". Latitude dan Longitude akan terisi otomatis.</p>
-                    </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-sm font-semibold text-on-surface mb-2">Latitude <span class="text-error">*</span></label>
-                            <input type="text" name="latitude" id="latitude" class="w-full px-4 py-3 bg-surface-container rounded-xl border-none focus:ring-2 focus:ring-primary text-sm font-mono" required readonly>
+                            <input type="text" name="latitude" id="latitude" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm font-mono" required>
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-on-surface mb-2">Longitude <span class="text-error">*</span></label>
-                            <input type="text" name="longitude" id="longitude" class="w-full px-4 py-3 bg-surface-container rounded-xl border-none focus:ring-2 focus:ring-primary text-sm font-mono" required readonly>
+                            <input type="text" name="longitude" id="longitude" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm font-mono" required>
                         </div>
                     </div>
                 </div>
@@ -259,45 +254,20 @@
         document.getElementById('longitude').value = e.latlng.lng;
     });
 
-    document.getElementById('link_gmaps').addEventListener('input', function(e) {
-        let url = e.target.value;
-        let lat = null;
-        let lng = null;
-
-        // Prioritas 1: Mencari koordinat dari Embed Link (!2dLng!3dLat)
-        let embedMatch = url.match(/!2d(-?\d+\.\d+)!3d(-?\d+\.\d+)/);
-        if (embedMatch) {
-            lng = parseFloat(embedMatch[1]);
-            lat = parseFloat(embedMatch[2]);
-        } 
-        // Prioritas 2: Mencari koordinat pasti lokasi link biasa (!3d dan !4d)
-        else {
-            let exactMatch = url.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
-            if (exactMatch) {
-                lat = parseFloat(exactMatch[1]);
-                lng = parseFloat(exactMatch[2]);
-            } else {
-                // Prioritas 3: Mencari koordinat tengah layar (@ atau q= atau ll=)
-                let viewportMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) || 
-                                    url.match(/[?&]q=(-?\d+\.\d+),(-?\d+\.\d+)/) ||
-                                    url.match(/[?&]ll=(-?\d+\.\d+),(-?\d+\.\d+)/);
-                if (viewportMatch) {
-                    lat = parseFloat(viewportMatch[1]);
-                    lng = parseFloat(viewportMatch[2]);
-                }
-            }
-        }
+    function updateMapFromInput() {
+        let lat = parseFloat(document.getElementById('latitude').value);
+        let lng = parseFloat(document.getElementById('longitude').value);
         
-        if (lat !== null && lng !== null) {
-            document.getElementById('latitude').value = lat;
-            document.getElementById('longitude').value = lng;
-            
+        if (!isNaN(lat) && !isNaN(lng)) {
             let newLatLng = new L.LatLng(lat, lng);
             map.setView(newLatLng, 15);
             if (marker) map.removeLayer(marker);
             marker = L.marker(newLatLng, {icon: customIcon}).addTo(map);
         }
-    });
+    }
+
+    document.getElementById('latitude').addEventListener('input', updateMapFromInput);
+    document.getElementById('longitude').addEventListener('input', updateMapFromInput);
 
     function addFasilitas() {
         const container = document.getElementById('fasilitas-container');
