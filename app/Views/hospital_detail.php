@@ -180,6 +180,37 @@
                 </div>
                 <?php endif; ?>
 
+                <!-- Galeri Fasilitas -->
+                <?php 
+                $galeriArr = !empty($hospital['galeri']) ? json_decode($hospital['galeri'], true) : [];
+                if (!empty($galeriArr)):
+                ?>
+                <div class="bg-white rounded-2xl border border-outline-variant p-8 shadow-sm">
+                    <h3 class="text-lg font-bold text-on-surface mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">photo_library</span>
+                        Galeri Fasilitas
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        <?php foreach($galeriArr as $gImg): ?>
+                            <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-outline-variant" onclick="openLightbox('<?= base_url('uploads/hospitals/galeri/' . $gImg) ?>')">
+                                <img src="<?= base_url('uploads/hospitals/galeri/' . $gImg) ?>" alt="Galeri Fasilitas" class="w-full h-40 object-cover transition-transform duration-300 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-white text-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">zoom_in</span>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <!-- Lightbox Modal -->
+                <div id="lightbox" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center p-4" onclick="closeLightbox()">
+                    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors">
+                        <span class="material-symbols-outlined text-4xl">close</span>
+                    </button>
+                    <img id="lightbox-img" src="" alt="Preview" class="max-w-full max-h-[90vh] rounded-2xl shadow-2xl object-contain" onclick="event.stopPropagation()">
+                </div>
+
                 <!-- Jadwal Dokter -->
                 <?php 
                 $jadwalArr = !empty($hospital['jadwal_dokter']) ? json_decode($hospital['jadwal_dokter'], true) : [];
@@ -272,5 +303,25 @@
     L.marker([lat, lng], {icon: customIcon}).addTo(map)
         .bindPopup("<b><?= htmlspecialchars($hospital['nama']) ?></b>")
         .openPopup();
+
+    // Lightbox functions
+    function openLightbox(src) {
+        var lightbox = document.getElementById('lightbox');
+        document.getElementById('lightbox-img').src = src;
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        var lightbox = document.getElementById('lightbox');
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeLightbox();
+    });
 </script>
 <?= $this->endSection() ?>
