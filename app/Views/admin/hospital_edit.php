@@ -45,44 +45,6 @@
                 </div>
             </div>
 
-            <!-- Galeri Fasilitas -->
-            <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-6 mb-6">
-                <h3 class="font-bold text-on-surface text-lg mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">photo_library</span>
-                    Galeri Fasilitas
-                </h3>
-                <div class="space-y-5">
-                    <?php if (!empty($hospital['galeri'])): ?>
-                        <?php $galeriArr = json_decode($hospital['galeri'], true) ?: []; ?>
-                        <?php if (count($galeriArr) > 0): ?>
-                            <div>
-                                <label class="block text-sm font-semibold text-on-surface mb-2">Galeri Saat Ini</label>
-                                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                                    <?php foreach ($galeriArr as $gImg): ?>
-                                        <div class="relative group">
-                                            <img src="<?= base_url('uploads/hospitals/galeri/' . $gImg) ?>" alt="Galeri" class="w-full h-24 object-cover rounded-xl border border-outline-variant">
-                                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
-                                                <label class="flex items-center gap-2 text-white cursor-pointer text-xs font-semibold bg-error/90 px-2 py-1 rounded">
-                                                    <input type="checkbox" name="delete_galeri[]" value="<?= $gImg ?>" class="rounded focus:ring-error text-error border-none">
-                                                    Hapus
-                                                </label>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <p class="text-xs text-error mt-2 font-semibold">Centang gambar yang ingin dihapus, lalu klik Simpan Perubahan.</p>
-                            </div>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                    
-                    <div>
-                        <label class="block text-sm font-semibold text-on-surface mb-2">Upload Gambar Tambahan (Maksimal 10 foto total)</label>
-                        <input type="file" name="galeri[]" accept="image/*" multiple max="10" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
-                        <p class="text-xs text-on-surface-variant mt-2">Anda bisa memilih lebih dari satu file sekaligus.</p>
-                    </div>
-                </div>
-            </div>
-
             <!-- Lokasi -->
             <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-6 mb-6">
                 <h3 class="font-bold text-on-surface text-lg mb-6 flex items-center gap-2">

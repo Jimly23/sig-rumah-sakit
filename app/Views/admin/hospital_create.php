@@ -39,21 +39,6 @@
                 </div>
             </div>
 
-            <!-- Galeri Fasilitas -->
-            <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-6 mb-6">
-                <h3 class="font-bold text-on-surface text-lg mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary">photo_library</span>
-                    Galeri Fasilitas
-                </h3>
-                <div class="space-y-5">
-                    <div>
-                        <label class="block text-sm font-semibold text-on-surface mb-2">Upload Gambar (Maksimal 10 foto)</label>
-                        <input type="file" name="galeri[]" accept="image/*" multiple max="10" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
-                        <p class="text-xs text-on-surface-variant mt-2">Anda bisa memilih lebih dari satu file sekaligus.</p>
-                    </div>
-                </div>
-            </div>
-
             <!-- Lokasi -->
             <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-6 mb-6">
                 <h3 class="font-bold text-on-surface text-lg mb-6 flex items-center gap-2">

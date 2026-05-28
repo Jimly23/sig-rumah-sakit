@@ -47,18 +47,7 @@ class Admin extends BaseController
             $foto->move('uploads/hospitals', $fotoName);
         }
 
-        // Handle multiple file upload for galeri
-        $galeriFiles = $this->request->getFiles();
-        $galeriNames = [];
-        if (isset($galeriFiles['galeri']) && is_array($galeriFiles['galeri'])) {
-            foreach ($galeriFiles['galeri'] as $img) {
-                if ($img->isValid() && !$img->hasMoved()) {
-                    $newName = $img->getRandomName();
-                    $img->move('uploads/hospitals/galeri', $newName);
-                    $galeriNames[] = $newName;
-                }
-            }
-        }
+
 
         $waInput = $this->request->getPost('whatsapp');
         $waFormatted = $waInput ? '+62' . ltrim(ltrim($waInput, '+62'), '0') : '';
@@ -80,7 +69,7 @@ class Admin extends BaseController
             'latitude'        => $this->request->getPost('latitude'),
             'longitude'       => $this->request->getPost('longitude'),
             'deskripsi'       => $this->request->getPost('deskripsi'),
-            'galeri'          => !empty($galeriNames) ? json_encode($galeriNames) : null,
+
             'link_gmaps'      => $this->request->getPost('link_gmaps'),
             'fasilitas'       => $this->request->getPost('fasilitas') ? json_encode(array_values(array_filter($this->request->getPost('fasilitas')))) : null,
             'layanan'         => $this->request->getPost('layanan') ? json_encode(array_values(array_filter($this->request->getPost('layanan')))) : null,
@@ -117,35 +106,7 @@ class Admin extends BaseController
             $foto->move('uploads/hospitals', $fotoName);
         }
 
-        // Handle multiple file upload for galeri
-        $galeriFiles = $this->request->getFiles();
-        $galeriNames = [];
-        // Keep existing galeri if exist
-        if (!empty($hospital['galeri'])) {
-            $galeriNames = json_decode($hospital['galeri'], true) ?: [];
-        }
 
-        // Handle delete galeri
-        $deleteGaleri = $this->request->getPost('delete_galeri');
-        if ($deleteGaleri && is_array($deleteGaleri)) {
-            foreach ($deleteGaleri as $delImg) {
-                if (file_exists('uploads/hospitals/galeri/' . $delImg)) {
-                    unlink('uploads/hospitals/galeri/' . $delImg);
-                }
-                $galeriNames = array_diff($galeriNames, [$delImg]);
-            }
-        }
-        $galeriNames = array_values($galeriNames); // reindex
-
-        if (isset($galeriFiles['galeri']) && is_array($galeriFiles['galeri'])) {
-            foreach ($galeriFiles['galeri'] as $img) {
-                if ($img->isValid() && !$img->hasMoved()) {
-                    $newName = $img->getRandomName();
-                    $img->move('uploads/hospitals/galeri', $newName);
-                    $galeriNames[] = $newName;
-                }
-            }
-        }
 
         $waInput = $this->request->getPost('whatsapp');
         $waFormatted = $waInput ? '+62' . ltrim(ltrim($waInput, '+62'), '0') : '';
@@ -167,7 +128,7 @@ class Admin extends BaseController
             'latitude'        => $this->request->getPost('latitude'),
             'longitude'       => $this->request->getPost('longitude'),
             'deskripsi'       => $this->request->getPost('deskripsi'),
-            'galeri'          => !empty($galeriNames) ? json_encode($galeriNames) : null,
+
             'link_gmaps'      => $this->request->getPost('link_gmaps'),
             'fasilitas'       => $this->request->getPost('fasilitas') ? json_encode(array_values(array_filter($this->request->getPost('fasilitas')))) : null,
             'layanan'         => $this->request->getPost('layanan') ? json_encode(array_values(array_filter($this->request->getPost('layanan')))) : null,
