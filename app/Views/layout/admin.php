@@ -110,10 +110,10 @@
             <button id="mobile-sidebar-btn" class="md:hidden hover:bg-surface-container-high rounded-full p-2 text-on-surface-variant active:scale-90 transition-transform">
                 <span class="material-symbols-outlined">menu</span>
             </button>
-            <div class="relative w-full md:w-96">
+            <form action="<?= base_url('admin') ?>" method="get" class="relative w-full md:w-96">
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
-                <input class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-secondary text-sm" placeholder="Cari data rumah sakit..." type="text"/>
-            </div>
+                <input name="search" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>" class="w-full pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-secondary text-sm outline-none" placeholder="Cari data rumah sakit..." type="text"/>
+            </form>
         </div>
         <div class="flex items-center gap-4">
             <button class="hover:bg-surface-container-high rounded-full p-2 text-on-surface-variant active:scale-90 transition-transform">
