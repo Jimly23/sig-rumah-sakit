@@ -15,6 +15,16 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
     <div class="lg:col-span-3">
+        <?php if(session()->has('errors')): ?>
+            <div class="bg-error/10 border border-error text-error rounded-xl p-4 mb-6">
+                <ul class="list-disc list-inside">
+                    <?php foreach(session('errors') as $error): ?>
+                        <li><?= $error ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
         <form action="<?= base_url('admin/update/'.$hospital['id']) ?>" method="post" enctype="multipart/form-data">
             <!-- Informasi Utama -->
             <div class="bg-surface border border-outline-variant rounded-xl overflow-hidden shadow-sm p-6 mb-6">
@@ -89,7 +99,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div>
                             <label class="block text-sm font-semibold text-on-surface mb-2">Nomor Telepon</label>
-                            <input type="text" name="telepon" value="<?= htmlspecialchars($hospital['telepon']) ?>" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm">
+                            <input type="text" name="telepon" value="<?= htmlspecialchars($hospital['telepon']) ?>" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-on-surface mb-2">WhatsApp</label>
@@ -105,7 +115,7 @@
                                         $waValue = substr($waValue, 1);
                                     }
                                 ?>
-                                <input type="text" name="whatsapp" value="<?= $waValue ?>" class="flex-1 w-full px-4 py-3 bg-surface-container-lowest rounded-r-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="8xxxxxxxxxx">
+                                <input type="text" name="whatsapp" value="<?= $waValue ?>" class="flex-1 w-full px-4 py-3 bg-surface-container-lowest rounded-r-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="8xxxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                             </div>
                         </div>
                     </div>
@@ -234,10 +244,10 @@
                             <?php if(!empty($jadwalArr)): ?>
                                 <?php foreach($jadwalArr as $idx => $j): ?>
                                     <tr class="border-b border-outline-variant">
-                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][hari]" value="<?= htmlspecialchars($j['hari'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm"></td>
-                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][jam]" value="<?= htmlspecialchars($j['jam'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm"></td>
-                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][nama_dokter]" value="<?= htmlspecialchars($j['nama_dokter'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm"></td>
-                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][spesialisasi]" value="<?= htmlspecialchars($j['spesialisasi'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm"></td>
+                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][hari]" value="<?= htmlspecialchars($j['hari'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
+                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][jam]" value="<?= htmlspecialchars($j['jam'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" oninput="this.value = this.value.replace(/[a-zA-Z]/g, '')"></td>
+                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][nama_dokter]" value="<?= htmlspecialchars($j['nama_dokter'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
+                                        <td class="p-2"><input type="text" name="jadwal_dokter[<?= $idx ?>][spesialisasi]" value="<?= htmlspecialchars($j['spesialisasi'] ?? '') ?>" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
                                         <td class="p-2 text-center">
                                             <button type="button" class="text-error hover:bg-error/10 p-1 rounded transition-colors" onclick="this.closest('tr').remove()"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                         </td>
@@ -245,10 +255,10 @@
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr class="border-b border-outline-variant">
-                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][hari]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Senin - Jumat"></td>
-                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][jam]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="08:00 - 14:00"></td>
-                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][nama_dokter]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="dr. Budi, Sp.PD"></td>
-                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][spesialisasi]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Penyakit Dalam"></td>
+                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][hari]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Senin - Jumat" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
+                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][jam]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="08:00 - 14:00" oninput="this.value = this.value.replace(/[a-zA-Z]/g, '')"></td>
+                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][nama_dokter]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="dr. Budi, Sp.PD" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
+                                    <td class="p-2"><input type="text" name="jadwal_dokter[0][spesialisasi]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Penyakit Dalam" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
                                     <td class="p-2 text-center">
                                         <button type="button" class="text-error hover:bg-error/10 p-1 rounded transition-colors" onclick="this.closest('tr').remove()"><span class="material-symbols-outlined text-[20px]">delete</span></button>
                                     </td>
@@ -391,10 +401,10 @@
         const tr = document.createElement('tr');
         tr.className = 'border-b border-outline-variant';
         tr.innerHTML = `
-            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][hari]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Senin - Jumat"></td>
-            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][jam]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="08:00 - 14:00"></td>
-            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][nama_dokter]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="dr. Budi, Sp.PD"></td>
-            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][spesialisasi]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Penyakit Dalam"></td>
+            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][hari]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Senin - Jumat" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
+            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][jam]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="08:00 - 14:00" oninput="this.value = this.value.replace(/[a-zA-Z]/g, '')"></td>
+            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][nama_dokter]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="dr. Budi, Sp.PD" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
+            <td class="p-2"><input type="text" name="jadwal_dokter[${jadwalIndex}][spesialisasi]" class="w-full px-3 py-2 bg-surface-container-lowest rounded-lg border border-outline-variant focus:ring-2 focus:ring-primary text-sm" placeholder="Penyakit Dalam" oninput="this.value = this.value.replace(/[0-9]/g, '')"></td>
             <td class="p-2 text-center">
                 <button type="button" class="text-error hover:bg-error/10 p-1 rounded transition-colors" onclick="this.closest('tr').remove()"><span class="material-symbols-outlined text-[20px]">delete</span></button>
             </td>

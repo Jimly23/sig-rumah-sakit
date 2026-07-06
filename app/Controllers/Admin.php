@@ -39,6 +39,32 @@ class Admin extends BaseController
     {
         $hospitalModel = new Hospital();
 
+        $validationRules = [
+            'nama' => [
+                'rules' => 'required|is_unique[hospitals.nama]',
+                'errors' => [
+                    'required' => 'Nama rumah sakit harus diisi.',
+                    'is_unique' => 'Nama rumah sakit sudah terdaftar. Setiap nama rumah sakit tidak boleh sama.'
+                ]
+            ],
+            'telepon' => [
+                'rules' => 'permit_empty|numeric',
+                'errors' => [
+                    'numeric' => 'Nomor telepon hanya boleh berisi angka.'
+                ]
+            ],
+            'whatsapp' => [
+                'rules' => 'permit_empty|numeric',
+                'errors' => [
+                    'numeric' => 'WhatsApp hanya boleh berisi angka.'
+                ]
+            ]
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         // Handle file upload
         $foto = $this->request->getFile('foto');
         $fotoName = null;
@@ -93,6 +119,32 @@ class Admin extends BaseController
     {
         $hospitalModel = new Hospital();
         $hospital = $hospitalModel->find($id);
+
+        $validationRules = [
+            'nama' => [
+                'rules' => "required|is_unique[hospitals.nama,id,{$id}]",
+                'errors' => [
+                    'required' => 'Nama rumah sakit harus diisi.',
+                    'is_unique' => 'Nama rumah sakit sudah terdaftar. Setiap nama rumah sakit tidak boleh sama.'
+                ]
+            ],
+            'telepon' => [
+                'rules' => 'permit_empty|numeric',
+                'errors' => [
+                    'numeric' => 'Nomor telepon hanya boleh berisi angka.'
+                ]
+            ],
+            'whatsapp' => [
+                'rules' => 'permit_empty|numeric',
+                'errors' => [
+                    'numeric' => 'WhatsApp hanya boleh berisi angka.'
+                ]
+            ]
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
 
         // Handle file upload
         $foto = $this->request->getFile('foto');
