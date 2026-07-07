@@ -47,6 +47,14 @@ class Admin extends BaseController
                     'is_unique' => 'Nama rumah sakit sudah terdaftar. Setiap nama rumah sakit tidak boleh sama.'
                 ]
             ],
+            'foto' => [
+                'rules' => 'permit_empty|uploaded[foto]|is_image[foto]|max_size[foto,5120]|mime_in[foto,image/jpg,image/jpeg,image/png,image/gif,image/webp]',
+                'errors' => [
+                    'is_image' => 'File yang diupload harus berupa gambar.',
+                    'max_size' => 'Ukuran foto maksimal 5MB.',
+                    'mime_in'  => 'Format foto harus JPG, JPEG, PNG, GIF, atau WEBP.'
+                ]
+            ],
             'telepon' => [
                 'rules' => 'permit_empty|numeric',
                 'errors' => [
@@ -126,6 +134,14 @@ class Admin extends BaseController
                 'errors' => [
                     'required' => 'Nama rumah sakit harus diisi.',
                     'is_unique' => 'Nama rumah sakit sudah terdaftar. Setiap nama rumah sakit tidak boleh sama.'
+                ]
+            ],
+            'foto' => [
+                'rules' => 'permit_empty|uploaded[foto]|is_image[foto]|max_size[foto,5120]|mime_in[foto,image/jpg,image/jpeg,image/png,image/gif,image/webp]',
+                'errors' => [
+                    'is_image' => 'File yang diupload harus berupa gambar.',
+                    'max_size' => 'Ukuran foto maksimal 5MB.',
+                    'mime_in'  => 'Format foto harus JPG, JPEG, PNG, GIF, atau WEBP.'
                 ]
             ],
             'telepon' => [

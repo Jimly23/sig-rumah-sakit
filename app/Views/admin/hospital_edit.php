@@ -45,7 +45,8 @@
                                 <p class="text-xs text-on-surface-variant">Foto saat ini. Upload baru untuk mengganti.</p>
                             </div>
                         <?php endif; ?>
-                        <input type="file" name="foto" accept="image/*" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
+                        <input type="file" name="foto" id="foto-input" accept="image/*" class="w-full px-4 py-3 bg-surface-container-lowest rounded-xl border border-outline-variant focus:ring-2 focus:ring-primary text-sm file:mr-4 file:py-1 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20">
+                        <p class="text-xs text-on-surface-variant mt-2">Format: JPG, JPEG, PNG, GIF, WEBP. Maksimal 5MB.</p>
                     </div>
 
                     <div>
@@ -311,6 +312,21 @@
 <?= $this->section('scripts') ?>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+    // Validasi ukuran file foto maksimal 5MB
+    var fotoInput = document.getElementById('foto-input');
+    if (fotoInput) {
+        fotoInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                var fileSize = this.files[0].size;
+                var maxSize = 5 * 1024 * 1024; // 5MB
+                if (fileSize > maxSize) {
+                    alert('Ukuran foto terlalu besar! Maksimal 5MB. Ukuran file Anda: ' + (fileSize / 1024 / 1024).toFixed(2) + 'MB');
+                    this.value = '';
+                }
+            }
+        });
+    }
+
     if (document.getElementById('map')) {
         var lat = <?= $hospital['latitude'] ?: '-6.8694' ?>;
         var lng = <?= $hospital['longitude'] ?: '109.0436' ?>;
